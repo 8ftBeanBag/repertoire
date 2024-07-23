@@ -10,7 +10,9 @@
   );
 
   let fetchSongs = async () => {
-    const { data, error } = await supabase.from("songs").select();
+    const { data, error } = await supabase
+      .from("songs")
+      .select(`*, books (title)`);
     if (error) throw error;
     return data;
   };
@@ -19,7 +21,7 @@
 <main class="w-screen h-screen">
   <TitleHero />
   {#await fetchSongs()}
-    <Alert text={`🎶 Awesome songs loading 🎶`} color="bg-sky-400" />
+    <Alert text={`Awesome songs loading`} color="bg-sky-400" />
   {:then data}
     {#if data}
       <SongsTable songs={data} />

@@ -2,13 +2,26 @@
     import type { TSongs } from "../types/converter";
     import ConditionalBadge from "./ConditionalBadge.svelte";
 
-    export let songs: Array<TSongs> | [] = [];
+    export let songs:
+        | Array<TSongs & { books: { title: string | undefined } }>
+        | [] = [];
 </script>
 
-<div class="mt-6">
+<div class="mt-4">
     {#each songs as song, i (song.id)}
         <div class="px-4">
-            <div class="text-xl">{song.title}</div>
+            <div class="text-lg items-center gap-2 mb-2">
+                <span>{song.title}</span>
+                {#if !!song.books}
+                    <div class="text-xs font-mono">
+                        {!!song.books && !!song.book_page
+                            ? `${song.books.title} pg. ${song.book_page}`
+                            : !!song.books
+                              ? `${song.books.title}`
+                              : ""}
+                    </div>
+                {/if}
+            </div>
             <div class="flex flex-wrap gap-2">
                 <ConditionalBadge
                     text={song.genre?.toString()}
@@ -25,17 +38,10 @@
                     color="bg-lavender"
                     condition={!!song.vibe}
                 />
-                <ConditionalBadge
-                    text={!!song.book && !!song.book_page
-                        ? `${song.book} : ${song.book_page}`
-                        : `${song.book}`}
-                    color="bg-stone-300"
-                    condition={!!song.book}
-                />
                 <div></div>
             </div>
         </div>
-        <hr class="my-6 mx-4" />
+        <hr class="my-4 mx-4" />
     {/each}
 </div>
 
