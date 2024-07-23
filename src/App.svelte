@@ -1,50 +1,37 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
-  import { createClient } from '@supabase/supabase-js'
+  import { createClient } from "@supabase/supabase-js";
+  import SongsTable from "./lib/SongsTable.svelte";
+  import Alert from "./lib/Alert.svelte";
 
-  const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
+  const supabase = createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+  );
+
+  let fetchSongs = async () => {
+    const { data, error } = await supabase.from("song").select();
+    if (error) throw error;
+    return data;
+  };
+  const myPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("foo");
+    }, 3000);
+  });
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+<main class="w-screen h-screen">
+  <div class="bg-black">Abi's Repertoire</div>
+  {#await fetchSongs()}
+    <Alert text={`🎶 Awesome songs loading 🎶`} color="bg-sky-400" />
+  {:then data}
+    {#if data}
+      <SongsTable songs={data} />
+    {/if}
+  {:catch error}
+    <Alert text={`Oops! ⚠️ ${error.message}`} color="bg-red-400" />
+  {/await}
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
 </style>
