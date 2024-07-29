@@ -1,15 +1,18 @@
 <script lang="ts">
     import type { TSongs } from "../types/converter";
     import ConditionalBadge from "./ConditionalBadge.svelte";
+    import Filters from "./Filters.svelte";
 
     export let songs:
         | Array<TSongs & { books: { title: string | undefined } }>
         | [] = [];
 </script>
 
-<div class="mt-4">
-    {#each songs as song, i (song.id)}
-        <div class="px-4">
+<div class="mt-4 my-4 mx-4">
+    <Filters />
+    <hr class="mt-4" />
+    {#each songs as song (song.id)}
+        <div class="mt-2 mb-4">
             <div class="text-lg items-center gap-2 mb-2">
                 <span>{song.title}</span>
                 {#if !!song.books}
@@ -41,7 +44,7 @@
                 <div></div>
             </div>
         </div>
-        <hr class="my-4 mx-4" />
+        <hr />
     {/each}
 </div>
 

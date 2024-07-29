@@ -1,0 +1,2 @@
+export default [{ "id": 2, "created_at": "2024-07-23T02:10:05.468341+00:00", "title": "brad needs this", "book": null, "sing_a_long": false, "genre": "Country", "tempo": "Medium", "vibe": "Thoughtful", "book_page": null, "url": null, "books": null },
+{ "id": 1, "created_at": "2024-07-22T23:56:57.048004+00:00", "title": "test", "book": 1, "sing_a_long": true, "genre": "Oldies", "tempo": "Very Slow", "vibe": "Chill", "book_page": 123, "url": null, "books": { "title": "Test book" } }]
