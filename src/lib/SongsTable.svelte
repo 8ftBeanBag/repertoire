@@ -9,8 +9,10 @@
 </script>
 
 <div class="mt-4 my-4 mx-4">
-    <Filters />
-    <hr class="mt-4" />
+    <div class="sticky top-0 pb-4 pt-2 bg-white"><Filters /></div>
+
+    <hr />
+
     {#each songs as song (song.id)}
         <div class="mt-2 mb-4">
             <div class="text-lg items-center gap-2 mb-2">

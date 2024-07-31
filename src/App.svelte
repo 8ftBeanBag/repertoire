@@ -19,17 +19,21 @@
   };
 </script>
 
-<main class="w-screen h-screen">
-  <TitleHero />
-  {#await fetchSongs()}
-    <Alert text={`Awesome songs loading`} color="bg-sky-400" />
-  {:then data}
-    {#if data}
-      <SongsTable songs={data} />
-    {/if}
-  {:catch error}
-    <Alert text={`Oops! ⚠️ ${error.message}`} color="bg-red-400" />
-  {/await}
+<main
+  class="min-w-screen h-screen bg-neutral-200 flex justify-center items-center sm:py-8"
+>
+  <div class="w-screen sm:w-[300px] bg-white rounded-lg h-full overflow-y-auto">
+    <TitleHero />
+    {#await fetchSongs()}
+      <Alert text={`Awesome songs loading`} color="bg-sky-400" />
+    {:then data}
+      {#if data}
+        <SongsTable songs={data} />
+      {/if}
+    {:catch error}
+      <Alert text={`Oops! ⚠️ ${error.message}`} color="bg-red-400" />
+    {/await}
+  </div>
 </main>
 
 <style>
