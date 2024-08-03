@@ -7,11 +7,47 @@
         | Array<TSongs & { books: { title: string | undefined } }>
         | [] = [];
 
-    $: computedSongs = songs.sort((a, b) =>
-        childSortDir
-            ? a.title.localeCompare(b.title)
-            : b.title.localeCompare(a.title),
-    );
+    $: computedSongs = songs
+        .filter((item) => {
+            let hasAllFilters = true;
+            let curFilterKeys = Object.keys(curFilters);
+
+            // Edge cases
+            if (curFilterKeys.length === 0) return true;
+            if (!item.genre && !item.tempo && !item.vibe) return false;
+
+            // Filters
+            if (
+                curFilterKeys.includes("Genre") &&
+                curFilters["Genre"].length &&
+                item.genre
+            ) {
+                hasAllFilters =
+                    hasAllFilters && curFilters["Genre"].includes(item.genre);
+            }
+            if (
+                curFilterKeys.includes("Tempo") &&
+                curFilters["Tempo"].length &&
+                item.tempo
+            ) {
+                hasAllFilters =
+                    hasAllFilters && curFilters["Tempo"].includes(item.tempo);
+            }
+            if (
+                curFilterKeys.includes("Vibe") &&
+                curFilters["Vibe"].length &&
+                item.vibe
+            ) {
+                hasAllFilters =
+                    hasAllFilters && curFilters["Vibe"].includes(item.vibe);
+            }
+            return hasAllFilters;
+        })
+        .sort((a, b) =>
+            childSortDir
+                ? a.title.localeCompare(b.title)
+                : b.title.localeCompare(a.title),
+        );
 
     // Sort
     let childSortDir = true;
@@ -20,8 +56,10 @@
     }
 
     // Filter
+    let curFilters: { [key: string]: Array<string> } = {};
     function filterSongs(event: any) {
-        console.log(event);
+        curFilters = { ...event.detail };
+        console.log(curFilters);
     }
 </script>
 
@@ -35,7 +73,18 @@
     {#each computedSongs as song (song.id)}
         <div class="mt-2 mb-4">
             <div class="text-lg items-center gap-2 mb-2">
-                <span>{song.title}</span>
+                {#if song.url}
+                    <a
+                        href={song.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="underline text-purple-900"
+                    >
+                        {song.title}
+                    </a>
+                {:else}
+                    <span>{song.title}</span>
+                {/if}
                 {#if !!song.books}
                     <div class="text-xs font-mono">
                         {!!song.books && !!song.book_page

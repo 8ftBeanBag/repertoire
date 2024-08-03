@@ -3,7 +3,7 @@
   import SongsTable from "./lib/SongsTable.svelte";
   import Alert from "./lib/Alert.svelte";
   import TitleHero from "./lib/TitleHero.svelte";
-  import data from "./data/test";
+  // import data from "./data/test";
 
   const supabase = createClient(
     import.meta.env.VITE_SUPABASE_URL,
@@ -11,10 +11,10 @@
   );
 
   let fetchSongs = async () => {
-    // const { data, error } = await supabase
-    //   .from("songs")
-    //   .select(`*, books (title)`);
-    // if (error) throw error;
+    const { data, error } = await supabase
+      .from("songs")
+      .select(`*, books (title)`);
+    if (error) throw error;
     return data;
   };
 </script>

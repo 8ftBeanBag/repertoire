@@ -51,10 +51,12 @@
         {/each}
     </div>
     {#each Object.keys(activeFilters) as filterKey}
-        <div
-            class={`flex gap-x-2 gap-y-0.5 flex-wrap my-2 text-xs font-mono rounded-lg px-2 py-0.5 ${filterData[filterKey].color}`}
-        >
-            {activeFilters[filterKey].join(" | ")}
-        </div>
+        {#if activeFilters[filterKey].length}
+            <div
+                class={`flex gap-x-2 gap-y-0.5 flex-wrap my-2 text-xs font-mono rounded-lg px-2 py-0.5 ${filterData[filterKey].color}`}
+            >
+                {activeFilters[filterKey].join(" | ")}
+            </div>
+        {/if}
     {/each}
 </div>
