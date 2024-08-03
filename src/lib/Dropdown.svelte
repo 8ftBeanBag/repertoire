@@ -1,20 +1,42 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
+
     export let color = "bg-green-700";
     export let options: Array<String> = [];
     export let title = "Dropdown";
     let isDropdownOpen = false;
+    let selected: Array<String> = [];
+    const dispatchVals = createEventDispatcher();
 
     const handleDropdownClick = () => {
         isDropdownOpen = !isDropdownOpen;
     };
 
-    const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }) => {
+    type stupidParams = {
+        relatedTarget: any;
+        currentTarget: any;
+    };
+    const handleDropdownFocusLoss = ({
+        relatedTarget,
+        currentTarget,
+    }: stupidParams) => {
         if (
             relatedTarget instanceof HTMLElement &&
             currentTarget.contains(relatedTarget)
         )
             return;
         isDropdownOpen = false;
+    };
+
+    const updateSelected = (sel: String) => {
+        let temp = selected;
+        if (temp.includes(sel)) {
+            temp.splice(temp.indexOf(sel), 1);
+        } else {
+            temp.push(sel);
+        }
+        selected = [...temp];
+        dispatchVals("selected", { [title]: selected });
     };
 </script>
 
@@ -32,9 +54,12 @@
             <ul class="p-4">
                 {#each options as option (option)}
                     <li
-                        class="hover:bg-purple-800 hover:text-white px-2 py-0.5 rounded-lg"
+                        class={`hover:bg-purple-800 hover:text-white px-2 py-0.5 rounded-lg ${selected.includes(option) ? "bg-purple-400" : ""}`}
                     >
-                        <button class="w-full text-start">
+                        <button
+                            class="w-full text-start"
+                            on:click={() => updateSelected(option)}
+                        >
                             {option}
                         </button>
                     </li>
@@ -43,13 +68,9 @@
             <div class={`${color} flex px-4 py-2 rounded-b-lg gap-2`}>
                 <button
                     class="px-2 py-0.5 bg-purple-800 text-white rounded-lg w-full"
+                    on:click={handleDropdownClick}
                 >
-                    Apply
-                </button>
-                <button
-                    class="px-2 py-0.5 bg-purple-800 text-white rounded-lg w-full"
-                >
-                    Cancel
+                    Close
                 </button>
             </div>
         </div>
