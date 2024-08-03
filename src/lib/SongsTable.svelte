@@ -7,17 +7,19 @@
         | Array<TSongs & { books: { title: string | undefined } }>
         | [] = [];
 
-    let childSortDir = true;
     $: computedSongs = songs.sort((a, b) =>
         childSortDir
             ? a.title.localeCompare(b.title)
             : b.title.localeCompare(a.title),
     );
 
+    // Sort
+    let childSortDir = true;
     function sortSongs(event: any) {
         childSortDir = event.detail.sortDir;
     }
 
+    // Filter
     function filterSongs(event: any) {
         console.log(event);
     }
