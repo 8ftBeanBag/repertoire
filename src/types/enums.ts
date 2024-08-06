@@ -6,6 +6,7 @@ export enum EGenre {
     "Oldies",
     "Country",
     "Jazz",
+    "Traditional",
 }
 
 export enum ETempo {

@@ -41,8 +41,18 @@
 </script>
 
 <div on:focusout={handleDropdownFocusLoss}>
-    <button class={`px-2 rounded-lg ${color}`} on:click={handleDropdownClick}>
+    <button
+        class={`text-xs px-2 rounded-lg flex gap-2 py-0.5 ${color}`}
+        on:click={handleDropdownClick}
+    >
         {title}
+        {#if selected.length}
+            <div
+                class="bg-purple-800 text-white rounded-full px-1 flex justify-center items-center"
+            >
+                {selected.length}
+            </div>
+        {/if}
     </button>
     <div
         class="w-screen h-screen fixed bg-neutral-300 bg-opacity-40 top-0 left-0 flex justify-center items-center"

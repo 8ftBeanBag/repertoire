@@ -36,7 +36,10 @@
 
 <div>
     <div class="flex gap-2">
-        <button class="px-2 bg-neutral-300 rounded-lg" on:click={sortAZ}>
+        <button
+            class="px-2 bg-neutral-300 rounded-lg text-xs"
+            on:click={sortAZ}
+        >
             {sortDir ? "A-Z" : "Z-A"}
         </button>
         {#each Object.keys(filterData) as filterKey}
