@@ -22,7 +22,9 @@
 <main
   class="min-w-screen h-screen bg-neutral-200 flex justify-center items-center sm:py-8"
 >
-  <div class="w-screen sm:w-[300px] bg-white rounded-lg h-full overflow-y-auto">
+  <div
+    class="w-screen sm:w-[300px] bg-white sm:rounded-lg h-full overflow-y-auto"
+  >
     <TitleHero />
     {#await fetchSongs()}
       <Alert text={`Awesome songs loading`} color="bg-sky-400" />
